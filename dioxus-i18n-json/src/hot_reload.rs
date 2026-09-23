@@ -17,13 +17,13 @@ pub fn watch_translations(
         let mut watcher = match RecommendedWatcher::new(event_tx, Config::default()) {
             Ok(w) => w,
             Err(e) => {
-                log::error!("Failed to create file watcher: {}", e);
+                tracing::error!("Failed to create file watcher: {}", e);
                 return;
             }
         };
 
         if let Err(e) = watcher.watch(path.as_ref(), RecursiveMode::NonRecursive) {
-            log::error!("Failed to watch translations directory: {}", e);
+            tracing::error!("Failed to watch translations directory: {}", e);
             return;
         }
 
@@ -37,7 +37,7 @@ pub fn watch_translations(
                     }
                 }
                 Ok(Err(e)) => {
-                    log::error!("Watch error: {}", e);
+                    tracing::error!("Watch error: {}", e);
                 }
                 Err(_) => {
                     // Timeout – loop around so we periodically check for shutdown.

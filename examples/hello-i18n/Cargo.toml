@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-dioxus = { version = "0.6", features = ["desktop"] }
+dioxus = { version = "0.7.10", features = ["desktop"] }
 dioxus-i18n-json = { path = "../../dioxus-i18n-json", features = ["hot-reload"] }

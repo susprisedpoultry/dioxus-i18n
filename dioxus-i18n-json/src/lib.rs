@@ -98,7 +98,7 @@ impl I18n {
                 *self.translations.write() = data;
             }
             Err(e) => {
-                log::error!("Failed to reload translations: {}", e);
+                tracing::error!("Failed to reload translations: {}", e);
             }
         }
     }
