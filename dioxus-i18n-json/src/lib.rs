@@ -231,20 +231,7 @@ fn interpolate(template: &str, vars: &[(&str, &str)]) -> String {
 }
 
 /// Provide i18n context to the rest of the application.
-///
-/// # Example
-/// ```rust,ignore
-/// use dioxus_i18n_json::{I18nConfig, I18nProvider};
-///
-/// rsx! {
-///     I18nProvider {
-///         config: I18nConfig::new("./locales", "en"),
-///         App {}
-///     }
-/// }
-/// ```
-#[component]
-pub fn I18nProvider(children: Element, config: I18nConfig) -> Element {
+pub fn use_i18n_provider(config: I18nConfig) -> I18n {
     let initial = config
         .initial
         .clone()
@@ -259,7 +246,7 @@ pub fn I18nProvider(children: Element, config: I18nConfig) -> Element {
         fallback_locale,
         translations,
     };
-    use_context_provider(|| i18n);
+    let i18n = use_context_provider(|| i18n);
 
     #[cfg(feature = "hot-reload")]
     {
@@ -274,6 +261,26 @@ pub fn I18nProvider(children: Element, config: I18nConfig) -> Element {
             });
         });
     }
+
+    i18n
+}
+
+/// Provide i18n context to the rest of the application.
+///
+/// # Example
+/// ```rust,ignore
+/// use dioxus_i18n_json::{I18nConfig, I18nProvider};
+///
+/// rsx! {
+///     I18nProvider {
+///         config: I18nConfig::new("./locales", "en"),
+///         App {}
+///     }
+/// }
+/// ```
+#[component]
+pub fn I18nProvider(children: Element, config: I18nConfig) -> Element {
+    use_i18n_provider(config);
 
     rsx! { {children} }
 }

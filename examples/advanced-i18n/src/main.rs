@@ -1,5 +1,7 @@
 use dioxus::prelude::*;
-use dioxus_i18n_json::{generate_keys, use_i18n, use_t, I18nConfig, I18nProvider, Trans, UseI18n};
+use dioxus_i18n_json::{
+    generate_keys, use_i18n, use_i18n_provider, use_t, I18nConfig, Tr, UseI18n,
+};
 
 generate_keys!("examples/advanced-i18n/locales/en.json");
 
@@ -9,12 +11,12 @@ fn main() {
 
 #[component]
 fn App() -> Element {
+    use_i18n_provider(
+        I18nConfig::new("examples/advanced-i18n/locales", "en").with_fallback_locale("en"),
+    );
+
     rsx! {
-        I18nProvider {
-            config: I18nConfig::new("examples/advanced-i18n/locales", "en")
-                .with_fallback_locale("en"),
-            Dashboard {}
-        }
+        Dashboard {}
     }
 }
 
