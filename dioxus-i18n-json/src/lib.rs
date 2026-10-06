@@ -335,6 +335,27 @@ pub fn use_t() -> UseI18n<
     }
 }
 
+/// Returns callable translation helpers.
+/// This version can be used from handlers
+/// # Example
+/// ```rust,ignore
+/// let UseI18n { t, tp, tf } = use_t();
+/// let welcome = t("messages.welcome");
+/// ```
+#[allow(clippy::type_complexity)]
+pub fn consume_t() -> UseI18n<
+    impl Fn(&str) -> String + Copy,
+    impl Fn(&str, i64) -> String + Copy,
+    impl Fn(&str, &[(&str, &str)]) -> String + Copy,
+> {
+    let i18n = consume_context::<I18n>();
+    UseI18n {
+        t: move |key| i18n.t(key),
+        tp: move |key, count| i18n.tp(key, count),
+        tf: move |key, vars| i18n.tf(key, vars),
+    }
+}
+
 /// Returns callable translation helpers bound to a namespace.
 ///
 /// The namespace is prepended to every key automatically.
