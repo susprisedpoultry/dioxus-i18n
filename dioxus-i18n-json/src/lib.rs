@@ -122,7 +122,7 @@ fn resolve_value<'a>(
 }
 
 /// Pure helper: translate a key, with fallback support.
-fn resolve_t(
+pub fn resolve_t(
     translations: &HashMap<String, Translations>,
     locale: &str,
     fallback: Option<&str>,
